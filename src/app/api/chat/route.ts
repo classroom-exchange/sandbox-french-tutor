@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const rateLimitMap = new Map<string, number[]>();
+
 export async function POST(req: NextRequest) {
+    const ip = req.headers.get("x-forwarded-for") ?? "unknown";
+    const now = Date.now();
+    const hits = (rateLimitMap.get(ip) ?? []).filter(t => now - t < 60_000);
+    if (hits.length >= 20) {
+        return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+  rateLimitMap.set(ip, [...hits, now]);
   try {
     const body = await req.json();
 
