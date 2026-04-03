@@ -459,6 +459,27 @@ Return ONLY valid JSON — no markdown, no code fences, no text outside the JSON
     return (
       <div className="min-h-screen bg-gray-50 pb-10">
 
+        {/* ── Lesson Progress Bar ── */}
+        <div className="bg-white border-b border-gray-200 px-4 py-3">
+          <div className="max-w-md mx-auto">
+            <div className="flex justify-between items-center mb-1.5">
+              <span className="text-sm font-semibold text-gray-700">
+                {done.size} of {SCENARIOS.length} lessons completed
+              </span>
+              <span className="text-sm font-bold text-blue-600">
+                {Math.round((done.size / SCENARIOS.length) * 100)}%
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div
+                className="bg-blue-600 h-2.5 rounded-full transition-all duration-500"
+                style={{ width: `${Math.round((done.size / SCENARIOS.length) * 100)}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+
         {/* Resume modal */}
         {showResumeModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-4">
